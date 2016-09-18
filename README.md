@@ -1,4 +1,4 @@
-# War is Hex - v0.1.0
+# War is Hex - v0.1.1
 
 Free implementation of a Hive style game without any copyright code/images.
 
@@ -7,4 +7,5 @@ Free implementation of a Hive style game without any copyright code/images.
 * pygame
 
 ### ToDo
-* Beetles can't be put down on tiles!
+* Add noises
+* Change tiles to tanks etc

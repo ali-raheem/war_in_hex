@@ -97,14 +97,14 @@ while True:
 			picked.draw(windowSurface)
 		if event.type == MOUSEBUTTONDOWN:
 			coord = pygame.mouse.get_pos()
+			if picked:
+				picked.setCenter(coord)
+				print "Putdown up", picked.name
+				tiles.remove(picked)
+				tiles.append(picked)
+				picked = None
+				continue
 			for t in tiles:
-				if picked == t:
-					t.setCenter(coord)
-					print "Putdown up", t.name
-					picked = None
-					tiles.remove(t)
-					tiles.append(t)
-					continue
 				if t.isOn(coord):
 					picked = t
 					print "Picked up", t.name

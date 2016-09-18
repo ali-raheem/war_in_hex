@@ -1,4 +1,4 @@
-# War in Hex - v0.1.1
+# War in Hex - v0.1.2
 
 Free implementation of a Hive style game without any copyright code/images.
 
@@ -8,4 +8,4 @@ Free implementation of a Hive style game without any copyright code/images.
 
 ### ToDo
 * Add noises
-* Change tiles to tanks etc
+* Make proper tile designs

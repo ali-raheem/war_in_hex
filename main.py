@@ -112,7 +112,7 @@ while True:
 				print "Putdown up", picked.name
 				tiles.remove(picked)
 				tiles.append(picked)
-				print "Moved",t.name,"from",str(tileStart),"to",str((picked.x, picked.y))
+				print "Moved",picked.name,"from",str(tileStart),"to",str((picked.x, picked.y))
 				picked = None
 				continue
 			for t in tiles:

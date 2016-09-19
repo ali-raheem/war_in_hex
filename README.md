@@ -9,3 +9,5 @@ Free implementation of a Hive style game without any copyright code/images.
 ### ToDo
 * Add noises
 * Make proper tile designs
+* Make it parse spitout strings
+* Add network support

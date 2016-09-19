@@ -14,6 +14,14 @@ def findTileByName(tiles, name):
 			return t
 	return None
 
+def fineTileByLocation(tiles, location):
+	x, y = location
+	tileList = []
+	for t in tiles:
+		if((t.x, t.y) ==  location):
+			tileList.append(t)
+	return tileList
+
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -90,12 +98,19 @@ for t in tiles:
 
 pygame.display.update()
 
+print "Debug:"
 bh2 = findTileByName(tiles, "Black Helicopter 2")
 if(bh2 != None):
-	print bh2.x
+	print (bh2.x, bh2.y)
 
+print "Debug:"
+wh2 = fineTileByLocation(tiles, (850, 360))
+for t in wh2:	
+	print t.name
+	
 picked = None
 tileStart = (0, 0)
+
 while True:
 	for event in pygame.event.get():
 		if event.type == QUIT:

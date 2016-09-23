@@ -8,6 +8,14 @@ from tile import Tile
 
 pygame.init()
 
+def moveTileByCmd(tiles, move):
+	tileName = move.split(' from')[0]
+	tile = findTileByName(tiles, tileName)
+	locationString = move.split(' to ')[1]
+	location = locationString.split(',')
+	x , y = int(location[0][1:]),int(location[1][:-1])
+	tile.setCenter((x,y))
+
 def findTileByName(tiles, name):
 	for t in tiles:
 		if(t.name == name):
@@ -107,7 +115,13 @@ print "Debug:"
 wh2 = fineTileByLocation(tiles, (850, 360))
 for t in wh2:	
 	print t.name
-	
+
+print "Debug move"
+moveTileByCmd(tiles, "Black Helicopter 1 from (800, 10) to (324, 275)")
+moveTileByCmd(tiles, "Black General from (800, 110) to (360, 325)")
+moveTileByCmd(tiles, "White General from (800, 260) to (360, 225)")
+
+
 picked = None
 tileStart = (0, 0)
 
@@ -124,17 +138,17 @@ while True:
 			coord = pygame.mouse.get_pos()
 			if picked:
 				picked.setCenter(coord)
-				print "Putdown up", picked.name
+#				print "Putdown up", picked.name
 				tiles.remove(picked)
 				tiles.append(picked)
-				print "Moved",picked.name,"from",str(tileStart),"to",str((picked.x, picked.y))
+				print picked.name,"from",str(tileStart),"to",str((picked.x, picked.y))
 				picked = None
 				continue
 			for t in tiles:
 				if t.isOn(coord):
 					picked = t
 					tileStart = (t.x, t.y)
-					print "Picked up", t.name
+#					print "Picked up", t.name
 					continue
 
 	windowSurface.blit(playAreaSurface, (0,0))

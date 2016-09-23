@@ -9,6 +9,5 @@ Free implementation of a Hive style game without any copyright code/images.
 * pygame
 
 ### ToDo
-* Add noises
 * Make proper tile designs
 * Add network support

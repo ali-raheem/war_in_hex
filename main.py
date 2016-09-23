@@ -9,14 +9,10 @@ from game import Game
 
 pygame.init()
 
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-
 windowSurface = pygame.display.set_mode((980, 640), 0, 32)
 pygame.display.set_caption('War in Hex')
+
+moveSound = pygame.mixer.Sound('assets/tile_drop.wav')
 
 playAreaSurface = pygame.image.load('assets/playarea.png')
 basicFont = pygame.font.SysFont(None, 48)
@@ -30,8 +26,8 @@ blackHeliTile = pygame.image.load('assets/black_helicopter_tile.png')
 blackHeliTile.convert_alpha()
 blackBoatTile = pygame.image.load('assets/black_boat_tile.png')
 blackBoatTile.convert_alpha()
-blackTroopsTile = pygame.image.load('assets/black_troops_tile.png')
-blackTroopsTile.convert_alpha()
+blackInfTile = pygame.image.load('assets/black_troops_tile.png')
+blackInfTile.convert_alpha()
 blackTankTile = pygame.image.load('assets/black_tank_tile.png')
 blackTankTile.convert_alpha()
 
@@ -39,8 +35,8 @@ whiteGenTile = pygame.image.load('assets/white_general_tile.png')
 whiteGenTile.convert_alpha()
 whiteBoatTile = pygame.image.load('assets/white_boat_tile.png')
 whiteBoatTile.convert_alpha()
-whiteTroopsTile = pygame.image.load('assets/white_troops_tile.png')
-whiteTroopsTile.convert_alpha()
+whiteInfTile = pygame.image.load('assets/white_troops_tile.png')
+whiteInfTile.convert_alpha()
 whiteTankTile = pygame.image.load('assets/white_tank_tile.png')
 whiteTankTile.convert_alpha()
 whiteHeliTile = pygame.image.load('assets/white_helicopter_tile.png')
@@ -60,8 +56,8 @@ game.addTile(Tile(850, 60, "Black Battleship 2", blackBoatTile, windowSurface))
 game.addTile(Tile(900, 60, "Black Battleship 3", blackBoatTile, windowSurface))
 
 game.addTile(Tile(800, 110, "Black General", blackGenTile, windowSurface))
-game.addTile(Tile(850, 110, "Black Troops 1", blackTroopsTile, windowSurface))
-game.addTile(Tile(900, 110, "Black Troops 2", blackTroopsTile, windowSurface))
+game.addTile(Tile(850, 110, "Black Infantry 1", blackInfTile, windowSurface))
+game.addTile(Tile(900, 110, "Black Infantry 2", blackInfTile, windowSurface))
 
 game.addTile(Tile(800, 160, "Black Tank 1", blackTankTile, windowSurface))
 game.addTile(Tile(850, 160, "Black Tank 2", blackTankTile, windowSurface))
@@ -74,8 +70,8 @@ game.addTile(Tile(800, 260, "White General", whiteGenTile, windowSurface))
 game.addTile(Tile(850, 260, "White Tank 1", whiteTankTile, windowSurface))
 game.addTile(Tile(900, 260, "White Tank 2", whiteTankTile, windowSurface))
 
-game.addTile(Tile(800, 310, "White Bettle 1", whiteTroopsTile, windowSurface))
-game.addTile(Tile(850, 310, "White Bettle 2", whiteTroopsTile, windowSurface))
+game.addTile(Tile(800, 310, "White Infantry 1", whiteInfTile, windowSurface))
+game.addTile(Tile(850, 310, "White Infantry 2", whiteInfTile, windowSurface))
 game.addTile(Tile(900, 310, "White Helicopter 1", whiteHeliTile, windowSurface))
 
 game.addTile(Tile(800, 360, "White Helicopter 2", whiteHeliTile, windowSurface))
@@ -103,12 +99,14 @@ game.moveTileByCmd("White General from (800, 260) to (360, 225)")
 
 picked = None
 tileStart = (0, 0)
-
-while True:
+running = True
+RENDER_TIMER = pygame.USEREVENT
+pygame.time.set_timer(RENDER_TIMER, int(1000/20))
+while running:
+	pygame.time.wait(10)
 	for event in pygame.event.get():
 		if event.type == QUIT:
-			pygame.quit()
-			exit()
+			running = False
 		if picked:
 			coord = pygame.mouse.get_pos()
 			picked.setCenter(coord)
@@ -119,6 +117,7 @@ while True:
 				picked.setCenter(coord)
 				game.toTop(picked)
 				print picked.name,"from",str(tileStart),"to",str((picked.x, picked.y))
+				moveSound.play()
 				picked = None
 				continue
 			for t in game.tiles:
@@ -127,13 +126,12 @@ while True:
 					tileStart = (t.x, t.y)
 #					print "Picked up", t.name
 					continue
-
-	windowSurface.blit(playAreaSurface, (0,0))
-	windowSurface.blit(sideBoardSurface, (750, 0))
-
-	game.draw()
-	
-	pygame.display.update()
-
+		if event.type == RENDER_TIMER:
+			windowSurface.blit(playAreaSurface, (0,0))
+			windowSurface.blit(sideBoardSurface, (750, 0))
+			game.draw()
+			pygame.display.update()
 
 		
+pygame.quit()
+exit()

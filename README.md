@@ -1,4 +1,4 @@
-# War in Hex - v0.2.3
+# War in Hex - v0.2.4
 
 Free implementation of a Hive style game without any copyright code/images.
 
@@ -9,5 +9,5 @@ Free implementation of a Hive style game without any copyright code/images.
 * pygame
 
 ### ToDo
-* Make proper tile designs
+* Pixel art for general
 * Add network support

@@ -7,6 +7,11 @@ from sys import exit
 from tile import Tile
 from game import Game
 
+def loadTile(path):
+	tile = pygame.image.load(path)
+	tile.convert_alpha()
+	return tile
+
 pygame.init()
 
 windowSurface = pygame.display.set_mode((980, 640), 0, 32)
@@ -20,30 +25,17 @@ basicFont = pygame.font.SysFont(None, 48)
 
 sideBoardSurface = pygame.image.load('assets/sideboard.png')
 
-blackGenTile = pygame.image.load('assets/black_general_tile.png')
-blackGenTile.convert_alpha()
-blackHeliTile = pygame.image.load('assets/black_helicopter_tile.png')
-blackHeliTile.convert_alpha()
-blackBoatTile = pygame.image.load('assets/black_boat_tile.png')
-blackBoatTile.convert_alpha()
-blackInfTile = pygame.image.load('assets/black_troops_tile.png')
-blackInfTile.convert_alpha()
-blackTankTile = pygame.image.load('assets/black_tank_tile.png')
-blackTankTile.convert_alpha()
+blackGenTile = loadTile('assets/black_general_tile.png')
+blackHeliTile = loadTile('assets/black_helicopter_tile.png')
+blackBoatTile = loadTile('assets/black_boat_tile.png')
+blackInfTile = loadTile('assets/black_troops_tile.png')
+blackTankTile = loadTile('assets/black_tank_tile.png')
 
-whiteGenTile = pygame.image.load('assets/white_general_tile.png')
-whiteGenTile.convert_alpha()
-whiteBoatTile = pygame.image.load('assets/white_boat_tile.png')
-whiteBoatTile.convert_alpha()
-whiteInfTile = pygame.image.load('assets/white_troops_tile.png')
-whiteInfTile.convert_alpha()
-whiteTankTile = pygame.image.load('assets/white_tank_tile.png')
-whiteTankTile.convert_alpha()
-whiteHeliTile = pygame.image.load('assets/white_helicopter_tile.png')
-whiteHeliTile.convert_alpha()
-
-windowSurface.blit(playAreaSurface, (0,0))
-windowSurface.blit(sideBoardSurface, (750, 0))
+whiteGenTile = loadTile('assets/white_general_tile.png')
+whiteBoatTile = loadTile('assets/white_boat_tile.png')
+whiteInfTile = loadTile('assets/white_troops_tile.png')
+whiteTankTile = loadTile('assets/white_tank_tile.png')
+whiteHeliTile = loadTile('assets/white_helicopter_tile.png')
 
 game = Game()
 
@@ -77,24 +69,27 @@ game.addTile(Tile(900, 310, "White Helicopter 1", whiteHeliTile, windowSurface))
 game.addTile(Tile(800, 360, "White Helicopter 2", whiteHeliTile, windowSurface))
 game.addTile(Tile(850, 360, "White Helicopter 3", whiteHeliTile, windowSurface))
 
+windowSurface.blit(playAreaSurface, (0,0))
+windowSurface.blit(sideBoardSurface, (750, 0))
+
 game.draw()
 
 pygame.display.update()
 
-print "Debug:"
-bh2 = game.findTileByName("Black Helicopter 2")
-if(bh2 != None):
-	print (bh2.x, bh2.y)
+#print "Debug:"
+#bh2 = game.findTileByName("Black Helicopter 2")
+#if(bh2 != None):
+#	print (bh2.x, bh2.y)
 
-print "Debug:"
-wh2 = game.findTileByLocation((850, 360))
-for t in wh2:	
-	print t.name
+#print "Debug:"
+#wh2 = game.findTileByLocation((850, 360))
+#for t in wh2:	
+#	print t.name
 
-print "Debug move"
-game.moveTileByCmd("Black Helicopter 1 from (800, 10) to (324, 275)")
-game.moveTileByCmd("Black General from (800, 110) to (360, 325)")
-game.moveTileByCmd("White General from (800, 260) to (360, 225)")
+#print "Debug move"
+#game.moveTileByCmd("Black Helicopter 1 from (800, 10) to (324, 275)")
+#game.moveTileByCmd("Black General from (800, 110) to (360, 325)")
+#game.moveTileByCmd("White General from (800, 260) to (360, 225)")
 
 
 picked = None

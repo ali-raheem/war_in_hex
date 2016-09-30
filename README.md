@@ -1,4 +1,4 @@
-# War in Hex - v0.2.4
+# War in Hex - v0.2.5
 
 Free implementation of a Hive style game without any copyright code/images.
 

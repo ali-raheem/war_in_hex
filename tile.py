@@ -12,7 +12,7 @@ class Tile:
 		x -= 25
 #		y -= 25
 		x = x/12 * 12
-		y = y/25 * 25
+		y = y/21 * 21
 #		print (x,y)
 		self.x, self.y = x, y
 		return

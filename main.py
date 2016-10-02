@@ -16,17 +16,17 @@ def loadTile(path):
 	return tile
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--network", help="Enable network support.")
-parser.add_argument("--server", help="Act as server.")
+parser.add_argument("-n", "--network", action='store', dest='host_port', help="Enable network support.")
+parser.add_argument("-s", "--server", help="Act as server.")
 args = parser.parse_args()
 
-NETWORK = args.network
+NETWORK = args.host_port
 SERVER = args.server
-PORT = 50005
-HOST = 'localhost'
 
 if NETWORK:
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	PORT = int(args.host_port.split(':')[1])
+	HOST = args.host_port.split(':')[0]
 	if SERVER:	
 		s.bind(('', PORT))
 		s.listen(1)

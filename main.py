@@ -28,7 +28,7 @@ if NETWORK:
 	PORT = int(args.host_port.split(':')[1])
 	HOST = args.host_port.split(':')[0]
 	if SERVER:	
-		s.bind(('', PORT))
+		s.bind((HOST, PORT))
 		s.listen(1)
 		conn, addr = s.accept()
 		print "Connection from",addr,"established."

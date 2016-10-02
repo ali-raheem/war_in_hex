@@ -17,7 +17,9 @@ class Game:
 			locationString = move.split(' to ')[1]
 			location = locationString.split(',')
 			x , y = int(location[0][1:]),int(location[1][:-1])
-			tile.setCenter((x,y))
+			tile.x = x
+			tile.y = y
+			self.toTop(tile)
 		except:
 			pass
 	def toTop(self, tile):

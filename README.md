@@ -1,4 +1,4 @@
-# War in Hex - v0.3.0
+# War in Hex - v0.3.1
 
 Free implementation of a Hive style game without any copyright code/images.
 
@@ -28,6 +28,8 @@ On Debian systems you may run
 
 ```
 $sudo apt-get install python-pygame
+```
 
 ### ToDo
-* Debug network support
+
+* Debug network and add in error handling

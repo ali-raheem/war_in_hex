@@ -1,4 +1,7 @@
 #!/usr/bin/python
+import socket
+import select
+import argparse
 import operator
 import pygame
 from pygame.locals import *
@@ -12,6 +15,28 @@ def loadTile(path):
 	tile.convert_alpha()
 	return tile
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--network", help="Enable network support.")
+parser.add_argument("--server", help="Act as server.")
+args = parser.parse_args()
+
+NETWORK = args.network
+SERVER = args.server
+PORT = 50005
+HOST = 'localhost'
+
+if NETWORK:
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	if SERVER:	
+		s.bind(('', PORT))
+		s.listen(1)
+		conn, addr = s.accept()
+		print "Connection from",addr,"established."
+	else:
+		conn = s
+		conn.connect((HOST, PORT))
+		print "Connected."
+	conn.setblocking(0)
 pygame.init()
 
 windowSurface = pygame.display.set_mode((980, 640), 0, 32)
@@ -112,6 +137,10 @@ while running:
 				picked.setCenter(coord)
 				game.toTop(picked)
 				print picked.name,"from",str(tileStart),"to",str((picked.x, picked.y))
+				if NETWORK:
+					_, conn_w, _ = select.select([], [conn], [], 0)
+					if conn_w != []:
+						conn_w[0].send(picked.name+" from "+str(tileStart)+" to "+str((picked.x, picked.y)))
 				moveSound.play()
 				picked = None
 				continue
@@ -126,7 +155,12 @@ while running:
 			windowSurface.blit(sideBoardSurface, (750, 0))
 			game.draw()
 			pygame.display.update()
-
-		
+		if NETWORK:
+			conn_r, _, _ = select.select([conn], [], [], 0)
+			if conn_r != []:
+				a = conn_r[0].recv(1024)
+				game.moveTileByCmd(a)
+if NETWORK:
+	conn.close()		
 pygame.quit()
 exit()

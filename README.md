@@ -1,9 +1,10 @@
-# War in Hex - v0.3.2
+# War in Hex - v0.3.3
 
 Free implementation of a Hive style game without any copyright code/images.
 
 ![Screenshot of War in Hex](Screenshot.png?raw=true "War in Hex in action")
 
+```
 ├── assets
 │   ├── black_boat_tile.png
 │   ├── black_general_tile.png
@@ -24,7 +25,7 @@ Free implementation of a Hive style game without any copyright code/images.
 ├── README.md
 ├── Screenshot.png
 └── tile.py
-
+```
 
 ### Running
 

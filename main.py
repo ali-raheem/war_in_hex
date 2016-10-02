@@ -17,7 +17,7 @@ def loadTile(path):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--network", action='store', dest='host_port', help="Enable network support.")
-parser.add_argument("-s", "--server", help="Act as server.")
+parser.add_argument("-s", "--server", action='store_true', dest='server', help="Act as server.")
 args = parser.parse_args()
 
 NETWORK = args.host_port

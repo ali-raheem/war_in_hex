@@ -1,7 +1,11 @@
+from tile import Tile
+
 class Game:
-	def __init__(self):
+	def __init__(self, surface):
+		self.surface = surface
 		self.tiles = []
-	def addTile(self, tile):
+	def addTile(self, x, y, name, image):
+		tile = Tile(x, y, name, image, self.surface)
 		self.tiles.append(tile)
 	def draw(self):
 		for t in self.tiles:

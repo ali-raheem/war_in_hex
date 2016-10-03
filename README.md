@@ -5,7 +5,7 @@ Free implementation of a Hive style game without any copyright code/images.
 ![Screenshot of War in Hex](Screenshot.png?raw=true "War in Hex in action")
 
 ```
-├── assets
+├── assets					Assets
 │   ├── black_boat_tile.png
 │   ├── black_general_tile.png
 │   ├── black_helicopter_tile.png
@@ -21,7 +21,8 @@ Free implementation of a Hive style game without any copyright code/images.
 │   ├── white_tank_tile.png
 │   └── white_troops_tile.png
 ├── game.py
-├── main.py
+├── main.py				Python script
+├── main.exe				Windows binary (XP or later)
 ├── README.md
 ├── Screenshot.png
 └── tile.py
@@ -35,7 +36,15 @@ Unix like systems
 ./main.py
 ```
 
-Network features are very buggy.
+On windows
+
+```
+./main.exe
+```
+
+The main.exe binary works for Windows versions XP and later, for 95 and 98 you can run setup.py to generate the required extra binary.
+
+There are command line arguments for network support.
 
 ```
 -n --network HOST:PORT  Enable network support.
@@ -76,6 +85,8 @@ On Debian systems you may run
 ```
 $ sudo apt-get install python-pygame
 ```
+
+On windows install x86 python 2.7 (must be 32bit because of pygame) and pygame for python 2.7. If you wish to compile a binary for windows install py2exe.
 
 ### ToDo
 

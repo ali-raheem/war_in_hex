@@ -59,7 +59,7 @@ pygame.display.set_caption('War in Hex')
 moveSound = pygame.mixer.Sound('assets/tile_drop.wav')
 
 playAreaSurface = pygame.image.load('assets/playarea.png')
-basicFont = pygame.font.SysFont(None, 48)
+#basicFont = pygame.font.SysFont(None, 48)
 
 
 sideBoardSurface = pygame.image.load('assets/sideboard.png')

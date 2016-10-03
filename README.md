@@ -1,4 +1,4 @@
-# War in Hex - v0.3.4
+# War in Hex - v0.3.5
 
 Free implementation of a Hive style game without any copyright code/images.
 
@@ -38,14 +38,20 @@ Unix like systems
 Network features are very buggy.
 
 ```
---network   Enable network support.
---server    Act as server
+-n --network HOST:PORT  Enable network support.
+-s --server    Act as server
 ```
 
 To run a server on port 50006
 
 ```
 $ ./main --network 0.0.0.0:50006 --server
+```
+
+or even
+
+```
+$ ./main -n :50005 -s
 ```
 
 To connect a client to an already running server on localhost:50006
@@ -67,4 +73,4 @@ $ sudo apt-get install python-pygame
 
 ### ToDo
 
-* Debug network and add in error handling
+* Debug network and add in error handling (Need a windows OS to test cross latform)

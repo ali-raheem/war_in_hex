@@ -10,13 +10,18 @@ from sys import exit
 from tile import Tile
 from game import Game
 
+def clean_quit():
+	if NETWORK:
+		conn.close()		
+	pygame.quit()
+	exit()
 def loadTile(path):
 	tile = pygame.image.load(path)
 	tile.convert_alpha()
 	return tile
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", "--network", action='store', dest='host_port', help="Enable network support.")
+parser.add_argument("-n", "--network", action='store', dest='host_port', help="host:port Enable network support.")
 parser.add_argument("-s", "--server", action='store_true', dest='server', help="Act as server.")
 args = parser.parse_args()
 
@@ -27,15 +32,24 @@ if NETWORK:
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	PORT = int(args.host_port.split(':')[1])
 	HOST = args.host_port.split(':')[0]
-	if SERVER:	
-		s.bind((HOST, PORT))
-		s.listen(1)
-		conn, addr = s.accept()
-		print "Connection from",addr,"established."
+	if SERVER:
+		try:
+			print ("Waiting for a connection on port %d"%PORT)
+			s.bind((HOST, PORT))
+			s.listen(1)
+			conn, addr = s.accept()
+			print "Connection from",addr,"established."
+		except:
+			print ("Failed to create server, maybe is in use or privelidged.")
+			clean_quit()
 	else:
 		conn = s
-		conn.connect((HOST, PORT))
-		print "Connected."
+		try:
+			conn.connect((HOST, PORT))
+			print "Connected."
+		except:
+			print("Failed to connect to host.")
+			clean_quit()
 	conn.setblocking(0)
 pygame.init()
 
@@ -140,7 +154,10 @@ while running:
 				if NETWORK:
 					_, conn_w, _ = select.select([], [conn], [], 0)
 					if conn_w != []:
-						conn_w[0].send(picked.name+" from "+str(tileStart)+" to "+str((picked.x, picked.y)))
+						try:
+							conn_w[0].send(picked.name+" from "+str(tileStart)+" to "+str((picked.x, picked.y)))
+						except:
+							print("Error: Unable to send move over network.")
 				moveSound.play()
 				picked = None
 				continue
@@ -158,9 +175,9 @@ while running:
 		if NETWORK:
 			conn_r, _, _ = select.select([conn], [], [], 0)
 			if conn_r != []:
-				a = conn_r[0].recv(1024)
-				game.moveTileByCmd(a)
-if NETWORK:
-	conn.close()		
-pygame.quit()
-exit()
+				try:
+					a = conn_r[0].recv(1024)
+					game.moveTileByCmd(a)
+				except:
+					print("Error: Unable to recieve move over network.")
+clean_quit()

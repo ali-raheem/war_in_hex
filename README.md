@@ -60,6 +60,12 @@ To connect a client to an already running server on localhost:50006
 $ ./main --network localhost:50006
 ```
 
+Or even
+
+```
+$ ./main -n :50006
+```
+
 ### Dependencies
 
 * python 2.7

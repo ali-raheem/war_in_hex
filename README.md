@@ -90,4 +90,4 @@ On windows install x86 python 2.7 (must be 32bit because of pygame) and pygame f
 
 ### ToDo
 
-* Debug network and add in error handling (Need a windows OS to test cross latform)
+* Debug + Error handling

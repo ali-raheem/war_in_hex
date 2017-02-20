@@ -58,7 +58,7 @@ pygame.display.set_caption('War in Hex')
 
 moveSound = pygame.mixer.Sound('assets/tile_drop.wav')
 
-playAreaSurface = pygame.image.load('assets/playarea.png')
+#playAreaSurface = pygame.image.load('assets/playarea.png')
 #basicFont = pygame.font.SysFont(None, 48)
 
 
@@ -108,7 +108,8 @@ game.addTile(900, 310, "White Helicopter 1", whiteHeliTile)
 game.addTile(800, 360, "White Helicopter 2", whiteHeliTile)
 game.addTile(850, 360, "White Helicopter 3", whiteHeliTile)
 
-windowSurface.blit(playAreaSurface, (0,0))
+#windowSurface.blit(playAreaSurface, (0,0))
+windowSurface.fill((44, 84, 96))
 windowSurface.blit(sideBoardSurface, (750, 0))
 
 game.draw()
@@ -168,7 +169,8 @@ while running:
 #					print "Picked up", t.name
 					continue
 		if event.type == RENDER_TIMER:
-			windowSurface.blit(playAreaSurface, (0,0))
+#			windowSurface.blit(playAreaSurface, (0,0))
+			windowSurface.fill((44, 84, 96))
 			windowSurface.blit(sideBoardSurface, (750, 0))
 			game.draw()
 			pygame.display.update()

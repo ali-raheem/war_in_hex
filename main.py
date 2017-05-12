@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# GPLv3 Ali Raheem 2017
 import socket
 import select
 import argparse

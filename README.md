@@ -75,6 +75,26 @@ Or even
 $ ./main -n :50006
 ```
 
+### Online multiplayer
+
+There is currently a server at ird.raheem.rocks:1664
+
+```
+$ python main.py -n ird.raheem.rocks:1664
+```
+
+And you will get to play with an available player. Very much alpha but if you organise it with someone perhaps it's possible?
+
+### Running a multiplayer server
+
+This is as easy as
+
+```
+$ python main.py
+```
+
+Now people can connect on :1664
+
 ### Dependencies
 
 * python 2.7

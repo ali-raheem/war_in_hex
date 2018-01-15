@@ -1,4 +1,4 @@
-# War in Hex - v0.3.7
+# War in Hex - v0.4.0
 
 Free implementation of a Hive style game without any copyright code/images.
 
@@ -91,3 +91,4 @@ On windows install x86 python 2.7 (must be 32bit because of pygame) and pygame f
 ### ToDo
 
 * Debug + Error handling
+* Make a server for online multiplayer

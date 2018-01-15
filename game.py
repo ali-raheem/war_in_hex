@@ -1,3 +1,4 @@
+from json import loads
 from tile import Tile
 
 class Game:
@@ -12,11 +13,10 @@ class Game:
 			t.draw()
 	def moveTileByCmd(self, move):
 		try:
-			tileName = move.split(' from')[0]
+                        move = loads(move);
+			tileName = move['name']
 			tile = self.findTileByName(tileName)
-			locationString = move.split(' to ')[1]
-			location = locationString.split(',')
-			x , y = int(location[0][1:]),int(location[1][:-1])
+			x, y = move['to']
 			tile.x = x
 			tile.y = y
 			self.toTop(tile)

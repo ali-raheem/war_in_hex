@@ -11,6 +11,8 @@ from sys import exit
 from tile import Tile
 from game import Game
 
+from json import dumps
+
 def clean_quit():
 	if NETWORK:
 		conn.close()		
@@ -157,7 +159,11 @@ while running:
 					_, conn_w, _ = select.select([], [conn], [], 0)
 					if conn_w != []:
 						try:
-							conn_w[0].send(picked.name+" from "+str(tileStart)+" to "+str((picked.x, picked.y)))
+                                                        move = {}
+                                                        move['name'] = picked.name
+                                                        move['from'] = tileStart
+                                                        move['to'] = (picked.x, picked.y)
+							conn_w[0].send(dumps(move))
 						except:
 							print("Error: Unable to send move over network.")
 				moveSound.play()

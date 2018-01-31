@@ -1,9 +1,11 @@
 -module(wihd).
--export([start/0]).
+-export([start/1, start/0]).
 
 start() ->
+    start(1664).
+start(Port) ->
     Pid = spawn_link(fun() ->
-			     {ok, Listen} = gen_tcp:listen(1664, [{active, true}]),
+			     {ok, Listen} = gen_tcp:listen(Port, [{active, true}]),
 			     Linker = spawn(fun () -> linker() end),
 			     spawn(fun () -> acceptor(Linker, Listen) end),
 			     timer:sleep(infinity)
@@ -51,11 +53,15 @@ handle(Socket) ->
 handle(User, Opponent) ->
 %% Relay info between User over TCP and Opponent over PM.
     receive
+	error ->
+	    gen_tcp:close(User);
 	{tcp, User, Move} ->
 	    Opponent ! {self(), Move},
 	    handle(User, Opponent);
 	{Opponent, Move} -> 
-	    gen_tcp:send(User, Move),
-	    handle(User, Opponent);
+	    case gen_tcp:send(User, Move) of
+		ok -> handle(User, Opponent);
+		_ -> Opponent ! error
+	     end;
 	_ -> handle(User, Opponent)
     end.

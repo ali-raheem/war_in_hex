@@ -88,13 +88,6 @@ $ erl -noshell -s wihd start
 And the second is in Python
 
 ```
-$ python main.py -n SERVER:1664
-```
-For the python server
-
-This is as easy as
-
-```
 $ python server.py
 ```
 

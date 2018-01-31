@@ -77,10 +77,18 @@ $ ./main -n :50006
 
 ### Online multiplayer
 
-There is currently a server at ird.raheem.rocks:1664
+There are two server implementations currently, both allow random players to play against each other online.
+
+The first is in erlang and started as so:
 
 ```
-$ python main.py -n ird.raheem.rocks:1664
+$ erl -noshell -s wihd start
+```
+
+And the second is in Python
+
+```
+$ python main.py -n SERVER:1664
 ```
 
 And you will get to play with an available player. Very much alpha but if you organise it with someone perhaps it's possible?

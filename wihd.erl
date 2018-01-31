@@ -53,14 +53,16 @@ handle(User, Opponent) ->
 %% Relay info between User over TCP and Opponent over PM.
     receive
 	error ->
-	    gen_tcp:close(User);
+	    gen_tcp:close(User),
+	    exit(noproc);
 	{tcp, User, Move} ->
 	    Opponent ! {self(), Move},
 	    handle(User, Opponent);
 	{Opponent, Move} -> 
 	    case gen_tcp:send(User, Move) of
 		ok -> handle(User, Opponent);
-		_ -> Opponent ! error
+		_ -> Opponent ! error,
+		     exit(noproc)
 	     end;
 	_ -> handle(User, Opponent)
     end.

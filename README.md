@@ -1,6 +1,6 @@
 # War in Hex - v0.4.0
 
-Free implementation of a Hive style game without any copyright code/images.
+Free implementation of a Hive style game without any copyright code/images. Also comes with two servers in Erlang and Python.
 
 ![Screenshot of War in Hex](Screenshot.png?raw=true "War in Hex in action")
 
@@ -90,18 +90,17 @@ And the second is in Python
 ```
 $ python main.py -n SERVER:1664
 ```
-
-And you will get to play with an available player. Very much alpha but if you organise it with someone perhaps it's possible?
-
-### Running a multiplayer server
+For the python server
 
 This is as easy as
 
 ```
-$ python main.py
+$ python server.py
 ```
 
 Now people can connect on :1664
+
+And you will get to play with an available player. Very much alpha but if you organise it with someone perhaps it's possible?
 
 ### Dependencies
 

@@ -7,7 +7,8 @@ start(Port) ->
     Pid = spawn_link(fun() ->
 			     {ok, Listen} = gen_tcp:listen(Port, [{active, true}]),
 			     Linker = spawn(fun () -> linker() end),
-			     spawn(fun () -> acceptor(Linker, Listen) end),
+			     register(linker, Linker),
+			     spawn(fun () -> acceptor(Listen) end),
 			     timer:sleep(infinity)
 		     end),
     {ok, Pid}.
@@ -29,21 +30,19 @@ linker(Blue) ->
 	    linker(Blue)
     end.
 
-acceptor(Linker, ListenSocket) ->
+acceptor(ListenSocket) ->
     {ok, Socket} = gen_tcp:accept(ListenSocket),
     spawn(fun() ->
-		  acceptor(Linker, ListenSocket) end),
-    join(Linker, Socket).
-
-join(Linker, Socket) ->
+		  acceptor(ListenSocket) end),
+    Linker = whereis(linker),
     Linker ! {looking, self()},
     handle(Socket).
+
 
 handle(Socket) ->
 %% Wait to be paired up
     receive
 	{connect, Opponent} ->
-	    Opponent ! "Connected.",
 	    handle(Socket, Opponent);
 	_ ->
 	    handle(Socket)

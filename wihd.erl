@@ -34,20 +34,25 @@ acceptor(ListenSocket) ->
     {ok, Socket} = gen_tcp:accept(ListenSocket),
     spawn(fun() ->
 		  acceptor(ListenSocket) end),
-    handle(Socket).
+    register_with_linker(Socket).
 
-
-handle(Socket) ->
-%% Wait to be paired up
+register_with_linker(Socket) ->
     receive
 	{tcp, Socket, Msg} ->
 	    Linker = whereis(linker),
-	    Linker ! {looking, Msg, self()};
+	    Linker ! {looking, Msg, self()},
+	    wait_for_partnet(Socket)
+    end,
+    register_with_linker(Socket).
+
+wait_for_partner(Socket) ->
+%% Send Linker any game name, wait to be paired by Linker.
+    receive
 	{connect, Opponent} ->
 	    link(Opponent),
 	    handle(Socket, Opponent)
     end,
-    handle(Socket).
+    wait_for_partner(Socket).
 
 
 handle(User, Opponent) ->
@@ -69,6 +74,8 @@ handle(User, Opponent) ->
 linker2() ->
     linker2([]).
 linker2(L) ->
+%% Maintain a proplist of game_names and waiting clients.
+%% Add client to wait list or pair with a partner according to game name.
     receive
 	{looking, Tag, User} ->
 	    case proplists:get_value(Tag, L) of

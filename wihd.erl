@@ -6,7 +6,7 @@ start() ->
 start(Port) ->
     Pid = spawn_link(fun() ->
 			     {ok, Listen} = gen_tcp:listen(Port, [{active, true}]),
-			     Linker = spawn(fun () -> linker() end),
+			     Linker = spawn(fun () -> linker2() end),
 			     register(linker, Linker),
 			     spawn(fun () -> acceptor(Listen) end),
 			     timer:sleep(infinity)
@@ -34,35 +34,51 @@ acceptor(ListenSocket) ->
     {ok, Socket} = gen_tcp:accept(ListenSocket),
     spawn(fun() ->
 		  acceptor(ListenSocket) end),
-    Linker = whereis(linker),
-    Linker ! {looking, self()},
     handle(Socket).
 
 
 handle(Socket) ->
 %% Wait to be paired up
     receive
+	{tcp, Socket, Msg} ->
+	    Linker = whereis(linker),
+	    Linker ! {looking, Msg, self()};
 	{connect, Opponent} ->
-	    handle(Socket, Opponent);
-	_ ->
-	    handle(Socket)
-    end.
+	    link(Opponent),
+	    handle(Socket, Opponent)
+    end,
+    handle(Socket).
 
 
 handle(User, Opponent) ->
 %% Relay info between User over TCP and Opponent over PM.
     receive
-	error ->
-	    gen_tcp:close(User),
-	    exit(noproc);
 	{tcp, User, Move} ->
 	    Opponent ! {self(), Move},
 	    handle(User, Opponent);
 	{Opponent, Move} -> 
 	    case gen_tcp:send(User, Move) of
 		ok -> handle(User, Opponent);
-		_ -> Opponent ! error,
-		     exit(noproc)
+		_ -> exit(noproc)
 	     end;
 	_ -> handle(User, Opponent)
+%% Time out after 10 minutes
+	after 600000 -> exit(noproc)
     end.
+
+linker2() ->
+    linker2([]).
+linker2(L) ->
+    receive
+	{looking, Tag, User} ->
+	    case proplists:get_value(Tag, L) of
+		undefined ->
+		    linker2([{Tag, User}|L]);
+		Partner ->
+		    User ! {connect, Partner},
+		    Partner ! {connect, User},
+		    linker2(proplists:delete(tag, L))
+	    end
+    end,
+    linker2(L).
+

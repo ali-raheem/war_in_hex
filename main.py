@@ -26,10 +26,12 @@ def loadTile(path):
 parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--network", action='store', dest='host_port', help="host:port Enable network support.")
 parser.add_argument("-s", "--server", action='store_true', dest='server', help="Act as server.")
+parser.add_argument("-g", "--game", action='store', dest='game_name', help="Game to join on server")
 args = parser.parse_args()
 
 NETWORK = args.host_port
 SERVER = args.server
+GAME_NAME = args.game_name
 
 if NETWORK:
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

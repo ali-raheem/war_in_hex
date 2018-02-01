@@ -50,6 +50,7 @@ if NETWORK:
 		try:
 			conn.connect((HOST, PORT))
 			print "Connected."
+                        conn.send(GAME_NAME)
 		except:
 			print("Failed to connect to host.")
 			clean_quit()

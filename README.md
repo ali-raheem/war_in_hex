@@ -77,23 +77,7 @@ $ ./main -n :50006
 
 ### Online multiplayer
 
-There are two server implementations currently, both allow random players to play against each other online.
-
-The first is in erlang and started as so:
-
-```
-$ erl -noshell -s wihd start
-```
-
-And the second is in Python
-
-```
-$ python server.py
-```
-
-Now people can connect on :1664
-
-And you will get to play with an available player. Very much alpha but if you organise it with someone perhaps it's possible?
+See the separate project [here](https://github.com/wolfmankurd/WIHD/).
 
 ### Dependencies
 

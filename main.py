@@ -53,9 +53,9 @@ if NETWORK:
 			conn.connect((HOST, PORT))
 			print "Connected."
                         try:
-                                conn.send(GAME_NAME)
+                                conn.send(GAME_NAME+"\n")
                         except:
-                                conn.send("Any")
+                                conn.send("Any\n")
 		except:
 			print("Failed to connect to host.")
 			clean_quit()
@@ -169,7 +169,7 @@ while running:
                                                         move['name'] = picked.name
                                                         move['from'] = tileStart
                                                         move['to'] = (picked.x, picked.y)
-							conn_w[0].send(dumps(move))
+							conn_w[0].send(dumps(move)+"\n")
 						except:
 							print("Error: Unable to send move over network.")
 				moveSound.play()
